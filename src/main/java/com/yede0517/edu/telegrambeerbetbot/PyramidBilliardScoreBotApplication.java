@@ -8,15 +8,13 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 import com.yede0517.edu.telegrambeerbetbot.bot.BotRunner;
-import com.yede0517.edu.telegrambeerbetbot.data.entity.GameNumberSequence;
-import com.yede0517.edu.telegrambeerbetbot.data.entity.Player;
 import com.yede0517.edu.telegrambeerbetbot.repository.GameNumberSequenceRepository;
 import com.yede0517.edu.telegrambeerbetbot.repository.PlayerRepository;
 import lombok.RequiredArgsConstructor;
 
 @SpringBootApplication
 @RequiredArgsConstructor
-public class TelegramBeerBetBotApplication implements CommandLineRunner {
+public class PyramidBilliardScoreBotApplication implements CommandLineRunner {
 
     private final BotRunner botRunner;
     private final PlayerRepository repository;
@@ -24,7 +22,7 @@ public class TelegramBeerBetBotApplication implements CommandLineRunner {
 
 
     public static void main(String[] args) throws TelegramApiException {
-        SpringApplication.run(TelegramBeerBetBotApplication.class, args);
+        SpringApplication.run(PyramidBilliardScoreBotApplication.class, args);
     }
 
     @Override
