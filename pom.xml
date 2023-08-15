@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.yede0517.edu</groupId>
-    <artifactId>telegram-beer-bet-bot</artifactId>
+    <artifactId>pyramid-billiard-score-telegram-bot</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>telegram-beer-bet-bot</name>
-    <description>Demo project for Spring Boot</description>
+    <name>pyramid-billiard-score-telegram-bot</name>
+    <description>Telegram bot for scoring points and statistic for the pyramid billiard</description>
 
     <properties>
         <java.version>1.8</java.version>

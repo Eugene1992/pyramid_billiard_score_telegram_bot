@@ -18,6 +18,7 @@ import com.yede0517.edu.telegrambeerbetbot.data.entity.Game;
 import com.yede0517.edu.telegrambeerbetbot.data.entity.Player;
 import com.yede0517.edu.telegrambeerbetbot.data.entity.PlayerScore;
 import com.yede0517.edu.telegrambeerbetbot.data.shared.ActionIcons;
+import com.yede0517.edu.telegrambeerbetbot.data.shared.ActionLabels;
 import lombok.NoArgsConstructor;
 
 @Component
@@ -58,7 +59,7 @@ public class AbstractGameAction {
                         firstPlayerScore.getScore() + " - " + secondPlayerScore.getScore(),
                         secondPlayerFullName
                 )
-                .row(ActionIcons.FRAME_ICON + "Начать партию",
+                .row(ActionLabels.START_FRAME_LABEL,
                         ActionIcons.STATISTICS_ICON + "Статистика",
                         ActionIcons.STOP_ACTION_ICON + ActionIcons.GAME_ICON + "Завершить игру")
                 .build();
