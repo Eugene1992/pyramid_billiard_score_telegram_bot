@@ -14,6 +14,7 @@ import com.yede0517.edu.telegrambeerbetbot.data.entity.Game;
 import com.yede0517.edu.telegrambeerbetbot.data.entity.GameStatus;
 import com.yede0517.edu.telegrambeerbetbot.data.entity.Player;
 import com.yede0517.edu.telegrambeerbetbot.data.shared.ActionIcons;
+import com.yede0517.edu.telegrambeerbetbot.data.shared.ActionLabels;
 import com.yede0517.edu.telegrambeerbetbot.repository.PlayerRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -49,7 +50,7 @@ public class StartGameCommand implements ICommand {
                                     ActionIcons.PLAYER_ICON + firstPlayerFullName,
                                     ActionIcons.PLAYER_ICON + secondPlayerFullName
                             )
-                            .row(ActionIcons.GAME_ICON + "Начать игру")
+                            .row(ActionLabels.START_GAME_LABEL)
                             .build();
                 default:
                     throw new IllegalStateException("Not processed status at game start");

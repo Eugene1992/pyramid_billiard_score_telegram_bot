@@ -125,7 +125,7 @@ public class AbstractGameAction {
                         ActionIcons.PLAYER_ICON + firstPlayerFullName,
                         ActionIcons.PLAYER_ICON + secondPlayerFullName
                 )
-                .row(ActionIcons.GAME_ICON + "Начать игру")
+                .row(ActionLabels.START_GAME_LABEL)
                 .build();
     }
 }

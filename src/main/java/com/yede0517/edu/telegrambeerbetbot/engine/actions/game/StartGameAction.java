@@ -10,6 +10,7 @@ import com.yede0517.edu.telegrambeerbetbot.bot.service.GameService;
 import com.yede0517.edu.telegrambeerbetbot.data.entity.Game;
 import com.yede0517.edu.telegrambeerbetbot.data.entity.GameStatus;
 import com.yede0517.edu.telegrambeerbetbot.data.shared.ActionIcons;
+import com.yede0517.edu.telegrambeerbetbot.data.shared.ActionLabels;
 import com.yede0517.edu.telegrambeerbetbot.engine.actions.AbstractGameAction;
 import com.yede0517.edu.telegrambeerbetbot.engine.actions.Action;
 import lombok.RequiredArgsConstructor;
@@ -38,6 +39,6 @@ public class StartGameAction extends AbstractGameAction implements Action {
 
     @Override
     public boolean isAppropriate(String command) {
-        return command.contains(ActionIcons.GAME_ICON);
+        return command.contains(ActionLabels.START_GAME_LABEL);
     }
 }
