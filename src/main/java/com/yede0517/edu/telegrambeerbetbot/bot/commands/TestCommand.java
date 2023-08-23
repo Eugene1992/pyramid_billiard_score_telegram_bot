@@ -16,27 +16,6 @@ public class TestCommand implements ICommand {
     @Override
     public SendMessage apply(Update update) {
         SendMessage message = new SendMessage();
-        /*message.setText("test");
-
-        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-
-        InlineKeyboardButton rackShot = new InlineKeyboardButton("С разбоя");
-        InlineKeyboardButton abrikolShot = new InlineKeyboardButton("Абриколь");
-        InlineKeyboardButton doubleShot = new InlineKeyboardButton("Дуплет");
-        InlineKeyboardButton longShot = new InlineKeyboardButton("Дальний");
-        InlineKeyboardButton frenchShot = new InlineKeyboardButton("Француз");
-        InlineKeyboardButton systemShot = new InlineKeyboardButton("Система");
-
-        a.setCallbackData("setSpecialBallType:game_68a5dc28-7e4d-441b-8c0c-6d21f855fad2_frame_1_point_1_type_system");
-        b.setCallbackData("b callback");
-        c.setCallbackData("c callback");
-        d.setCallbackData("d callback");
-
-        inlineKeyboardMarkup.setKeyboard(asList(
-                asList(a, b),
-                asList(c, d))
-        );
-        message.setReplyMarkup(inlineKeyboardMarkup);*/
 
         return message;
     }

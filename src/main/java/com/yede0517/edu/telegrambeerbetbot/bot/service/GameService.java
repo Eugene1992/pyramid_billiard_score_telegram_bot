@@ -1,5 +1,7 @@
 package com.yede0517.edu.telegrambeerbetbot.bot.service;
 
+import static java.lang.Integer.parseInt;
+import static java.lang.Long.valueOf;
 import static java.lang.String.format;
 
 import java.time.LocalDateTime;
@@ -11,8 +13,11 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.yede0517.edu.telegrambeerbetbot.data.entity.Frame;
 import com.yede0517.edu.telegrambeerbetbot.data.entity.Game;
 import com.yede0517.edu.telegrambeerbetbot.data.entity.GameStatus;
+import com.yede0517.edu.telegrambeerbetbot.data.entity.Point;
+import com.yede0517.edu.telegrambeerbetbot.data.entity.SpecialBallType;
 import com.yede0517.edu.telegrambeerbetbot.data.shared.ActionIcons;
 import com.yede0517.edu.telegrambeerbetbot.repository.GameRepository;
 import lombok.RequiredArgsConstructor;
@@ -58,17 +63,12 @@ public class GameService {
         return repository.findByGameIdAndStatus(gameId, GameStatus.IN_PROGRESS);
     }
 
-    public Game getCompletedGame(Long gameId) {
-        return repository.findByGameIdAndStatus(gameId, GameStatus.COMPLETED);
+    public Game getActiveGameByGameNumber(Long gameNumber) {
+        return repository.findByGameNumberAndStatus(gameNumber, GameStatus.IN_PROGRESS);
     }
 
-    public Game getLastTerminatedGame(Long gameId) {
-        List<Game> games = repository.findAllByGameIdAndStatus(gameId, GameStatus.TERMINATED);
-
-        return games.stream()
-                .sorted(Comparator.comparing(Game::getEnd).reversed())
-                .findFirst()
-                .get();
+    public Game getCompletedGame(Long gameId) {
+        return repository.findByGameIdAndStatus(gameId, GameStatus.COMPLETED);
     }
 
     public Game getByGameNumber(Long gameNumber) {
@@ -93,5 +93,26 @@ public class GameService {
                             firstPlayerName, firstPlayerScore, secondPlayerScore, secondPlayerName);
                 })
                 .collect(Collectors.toList());
+    }
+
+    public void setSpecialBallType(String gameId, String frameNumber, String pointNumber, String type) {
+        Game activeGame = getActiveGameByGameNumber(valueOf(gameId));
+        Frame frame = activeGame.getFrame(parseInt(frameNumber));
+        Point point = frame.getPoint(parseInt(pointNumber));
+        SpecialBallType specialBallType = SpecialBallType.of(parseInt(type));
+
+        point.setSpecialBallType(specialBallType);
+
+        update(activeGame);
+    }
+
+    public void clearSpecialBallType(String gameId, String frameNumber, String pointNumber) {
+        Game activeGame = getActiveGame(valueOf(gameId));
+        Frame frame = activeGame.getFrame(parseInt(frameNumber));
+        List<Point> points = frame.getPoints();
+        Point point = points.get(parseInt(pointNumber) - 1);
+        point.setSpecialBallType(null);
+
+        update(activeGame);
     }
 }

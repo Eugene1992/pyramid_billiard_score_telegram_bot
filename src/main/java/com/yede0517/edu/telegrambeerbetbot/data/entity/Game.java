@@ -28,6 +28,7 @@ public class Game extends AbstractEntity {
     private LocalDateTime start;
     private LocalDateTime end;
     private GameStatus status;
+    private GameType type;
     private List<Frame> frames = new ArrayList<>();
 
     public Game(Long gameId) {
@@ -63,6 +64,7 @@ public class Game extends AbstractEntity {
 
 
     public void addFrame(Frame frame) {
+        frame.setNumber(frames.size() + 1);
         this.frames.add(frame);
     }
 
@@ -108,5 +110,13 @@ public class Game extends AbstractEntity {
 
         this.firstPlayerScore.score = firstPlayerScore;
         this.secondPlayerScore.score = secondPlayerScore;
+    }
+
+    public Frame getFrame(int frameNumber) {
+        return frames.get(--frameNumber);
+    }
+
+    public Frame getLastFrame() {
+        return frames.get(frames.size() - 1);
     }
 }

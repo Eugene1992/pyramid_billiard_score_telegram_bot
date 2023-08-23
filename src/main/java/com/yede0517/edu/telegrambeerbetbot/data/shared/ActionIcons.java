@@ -38,4 +38,7 @@ public interface ActionIcons {
 
     String RESUME_FRAME_ICON = "\uD83D\uDD19";
     String RESUME_GAME_ICON = "\uD83D\uDD1C";
+    String GAME_TYPE_ICON = "\uD83C\uDFAF ";
+
+    String STREAK_BALL_ICON = "\uD83D\uDFE0";
 }

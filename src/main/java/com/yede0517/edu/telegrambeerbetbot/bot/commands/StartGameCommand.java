@@ -12,7 +12,7 @@ import com.yede0517.edu.telegrambeerbetbot.bot.service.GameService;
 import com.yede0517.edu.telegrambeerbetbot.bot.utils.ReplyKeyboardMarkupBuilder;
 import com.yede0517.edu.telegrambeerbetbot.data.entity.Game;
 import com.yede0517.edu.telegrambeerbetbot.data.entity.GameStatus;
-import com.yede0517.edu.telegrambeerbetbot.data.entity.Player;
+import com.yede0517.edu.telegrambeerbetbot.data.entity.GameType;
 import com.yede0517.edu.telegrambeerbetbot.data.shared.ActionIcons;
 import com.yede0517.edu.telegrambeerbetbot.data.shared.ActionLabels;
 import com.yede0517.edu.telegrambeerbetbot.repository.PlayerRepository;
@@ -59,16 +59,14 @@ public class StartGameCommand implements ICommand {
             Game game = new Game(chatId);
             gameService.create(game);
 
-            List<Player> allPlayers = playerRepository.findAll();
-
-            List<String> playerNames = allPlayers.stream()
-                    .map(player -> ActionIcons.PLAYER_ICON + player.getFullName())
+            List<String> gameTypeLabels = GameType.getTypeNames()
+                    .stream()
+                    .map(name -> ActionIcons.GAME_TYPE_ICON + name)
                     .collect(Collectors.toList());
 
-            return new ReplyKeyboardMarkupBuilder("Пожалуйста, выберите первого игрока:")
-                    .rows(playerNames)
+            return new ReplyKeyboardMarkupBuilder("Пожалуйста, выберите тип игры:")
+                    .rows(gameTypeLabels)
                     .build();
         }
     }
-
 }

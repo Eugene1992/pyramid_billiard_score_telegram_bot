@@ -12,12 +12,13 @@ import com.yede0517.edu.telegrambeerbetbot.bot.utils.ReplyKeyboardMarkupBuilder;
 import com.yede0517.edu.telegrambeerbetbot.bot.service.StatisticService;
 import com.yede0517.edu.telegrambeerbetbot.data.entity.Game;
 import com.yede0517.edu.telegrambeerbetbot.data.shared.ActionIcons;
+import com.yede0517.edu.telegrambeerbetbot.engine.actions.AbstractGameAction;
 import com.yede0517.edu.telegrambeerbetbot.engine.actions.Action;
 import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public class GameStatisticAction implements Action {
+public class GameStatisticAction extends AbstractGameAction implements Action {
 
     private final GameService gameService;
     private final StatisticService statisticService;

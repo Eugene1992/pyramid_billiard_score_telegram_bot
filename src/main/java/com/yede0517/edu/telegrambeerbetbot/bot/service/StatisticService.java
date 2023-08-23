@@ -13,9 +13,13 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -24,8 +28,10 @@ import com.yede0517.edu.telegrambeerbetbot.data.entity.BallType;
 import com.yede0517.edu.telegrambeerbetbot.data.entity.Frame;
 import com.yede0517.edu.telegrambeerbetbot.data.entity.Game;
 import com.yede0517.edu.telegrambeerbetbot.data.entity.GameStatus;
+import com.yede0517.edu.telegrambeerbetbot.data.entity.GameType;
 import com.yede0517.edu.telegrambeerbetbot.data.entity.Player;
 import com.yede0517.edu.telegrambeerbetbot.data.entity.Point;
+import com.yede0517.edu.telegrambeerbetbot.data.entity.PointStreak;
 import com.yede0517.edu.telegrambeerbetbot.data.shared.ActionIcons;
 import com.yede0517.edu.telegrambeerbetbot.data.table.GameStats;
 import lombok.RequiredArgsConstructor;
@@ -75,10 +81,15 @@ public class StatisticService {
         String gameDate = start.format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"));
         Integer firstPlayerFrameScore = game.getFirstPlayerScore().getScore();
         Integer secondPlayerFrameScore = game.getSecondPlayerScore().getScore();
-
         String gameScore = format("%s Счет: %s %s-%s %s\n", ActionIcons.SCORE_ICON, firstPlayerFullName, firstPlayerFrameScore,
                 secondPlayerFrameScore, secondPlayerFullName);
         frameBuilder.append(gameScore);
+
+        GameType gameType = game.getType();
+        if (nonNull(gameType)) {
+            String typeName = gameType.getName();
+            frameBuilder.append(String.format("%sТип: %s\n", ActionIcons.GAME_TYPE_ICON, typeName));
+        }
         frameBuilder.append(format("%s Дата: %s\n", ActionIcons.CALENDAR_ICON, gameDate));
 
         if (!isGameActive) {
@@ -131,6 +142,50 @@ public class StatisticService {
             frameBuilder.append(firstPlayerBuilder).append("\n");
             frameBuilder.append(secondPlayerBuilder).append("\n").append("\n");
         }
+
+        Map<UUID, List<PointStreak>> playerStreaks = game.getFrames()
+                .stream()
+                .flatMap(frame -> frame.getStreaks().stream())
+                .collect(Collectors.groupingBy(PointStreak::getScorerId, Collectors.toList()));
+
+        List<PointStreak> firstPlayerPointStreaks = playerStreaks.get(firstPlayerId);
+        if (nonNull(firstPlayerPointStreaks)) {
+            List<Integer> firstPlayerStreakNumbers = firstPlayerPointStreaks
+                    .stream()
+                    .map(streak -> streak.getToPoint() - streak.getFromPoint() + 1)
+                    .sorted(Comparator.reverseOrder())
+                    .collect(Collectors.toList());
+
+            frameBuilder.append("Cерии:\n")
+                    .append(String.format("\n%s%s:\n", ActionIcons.PLAYER_ICON, firstPlayerFullName));
+
+            for (Integer streakNumber : firstPlayerStreakNumbers) {
+                for (int i = 0; i < streakNumber; i++) {
+                    frameBuilder.append(ActionIcons.STREAK_BALL_ICON);
+                }
+                frameBuilder.append("\n");
+            }
+        }
+
+
+        List<PointStreak> secondPlayerPointStreaks = playerStreaks.get(secondPlayerId);
+        if (nonNull(secondPlayerPointStreaks)) {
+            List<Integer> secondPlayerStreakNumbers = secondPlayerPointStreaks
+                    .stream()
+                    .map(streak -> streak.getToPoint() - streak.getFromPoint() + 1)
+                    .sorted(Comparator.reverseOrder())
+                    .collect(Collectors.toList());
+
+            frameBuilder.append(String.format("\n%s%s:\n", ActionIcons.PLAYER_ICON, secondPlayerFullName));
+
+            for (Integer streakNumber : secondPlayerStreakNumbers) {
+                for (int i = 0; i < streakNumber; i++) {
+                    frameBuilder.append(ActionIcons.STREAK_BALL_ICON);
+                }
+                frameBuilder.append("\n");
+            }
+        }
+
 
         return frameBuilder.toString();
     }

@@ -32,6 +32,12 @@ public class ActionService {
                 .orElse(null);
     }
 
+    public boolean isReplyAction(Update update) {
+        String message = update.getMessage().getText();
+
+        return message.startsWith("#");
+    }
+
     public boolean isAction(Update update) {
         String message = update.getMessage().getText();
 

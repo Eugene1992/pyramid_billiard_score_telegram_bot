@@ -5,15 +5,17 @@ import lombok.Getter;
 
 @Getter
 public enum BallType {
-    OWN(ActionIcons.OWN_BALL_ICON),
-    FOREIGN(ActionIcons.FOREIGN_BALL_ICON),
-    PENALTY(ActionIcons.PENALTY_BALL_ICON),
-    PRESENT(ActionIcons.PRESENT_BALL_ICON),
-    DUMMY(ActionIcons.DUMMY_BALL_ICON);
+    OWN(ActionIcons.OWN_BALL_ICON, "свой"),
+    FOREIGN(ActionIcons.FOREIGN_BALL_ICON, "чужой"),
+    PENALTY(ActionIcons.PENALTY_BALL_ICON, "штраф"),
+    PRESENT(ActionIcons.PRESENT_BALL_ICON, "подстава"),
+    DUMMY(ActionIcons.DUMMY_BALL_ICON, "дурак");
 
     private String icon;
+    private String name;
 
-    BallType(String icon) {
+    BallType(String icon, String name) {
         this.icon = icon;
+        this.name = name;
     }
 }

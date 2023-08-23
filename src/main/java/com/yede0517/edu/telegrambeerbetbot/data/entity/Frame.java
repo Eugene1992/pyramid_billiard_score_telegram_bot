@@ -16,13 +16,15 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class Frame {
-    public List<Point> points = new ArrayList<>();
+    private Integer number;
+    private List<Point> points = new ArrayList<>();
     private LocalDateTime start;
     private LocalDateTime end;
     private FrameStatus status;
     private PlayerScore firstPlayerScore;
     private PlayerScore secondPlayerScore;
     private UUID winnerPlayerId;
+    private List<PointStreak> streaks = new ArrayList<>();
 
     public Frame(Player firstPlayer, Player secondPlayer) {
         this.firstPlayerScore = new PlayerScore(firstPlayer.getId(), 0);
@@ -54,7 +56,9 @@ public class Frame {
 
 
     public void addPoint(UUID scorerId, BallType ballType) {
-        points.add(new Point(scorerId, ballType));
+        int number = points.size() + 1;
+        Point point = new Point(number, scorerId, ballType);
+        points.add(point);
         recalculatePlayerScores();
     }
 
@@ -96,5 +100,37 @@ public class Frame {
 
     public boolean isEnd() {
         return firstPlayerScore.score == 8 || secondPlayerScore.score == 8 || status.equals(FrameStatus.TERMINATED);
+    }
+
+    public Point getPoint(int pointNumber) {
+        return points.get(--pointNumber);
+    }
+
+    public Point getLastPoint() {
+        return points.get(points.size() - 1);
+    }
+
+    public void addStreak(UUID scorerId, Integer fromPoint, Integer toPoint) {
+        this.streaks.add(new PointStreak(scorerId, fromPoint, toPoint));
+    }
+
+    public PointStreak getStreak(Integer toPoint) {
+        return this.streaks.stream()
+                .filter(streak -> streak.getToPoint().equals(toPoint))
+                .findFirst()
+                .orElse(null);
+
+    }
+
+    public void removeStreak(PointStreak streak) {
+        Integer from = streak.getFromPoint();
+        Integer toPoint = streak.getToPoint();
+
+        for (int i = from; i < toPoint; i++) {
+            Point point = getPoint(i);
+            point.setStreak(false);
+        }
+
+        this.streaks.remove(streak);
     }
 }

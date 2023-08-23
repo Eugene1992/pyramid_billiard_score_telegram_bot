@@ -38,7 +38,6 @@ public class ReplyKeyboardMarkupBuilder {
         return this;
     }
 
-
     public ReplyKeyboardMarkupBuilder row(String... buttons) {
         KeyboardRow row = new KeyboardRow();
         for (String button : buttons) {
@@ -76,7 +75,7 @@ public class ReplyKeyboardMarkupBuilder {
 
     public SendMessage build() {
         response.setText(strBuilder.build());
+
         return response;
     }
-
 }

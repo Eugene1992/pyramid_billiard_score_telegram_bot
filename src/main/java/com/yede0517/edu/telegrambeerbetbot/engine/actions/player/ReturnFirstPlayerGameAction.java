@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+import com.yede0517.edu.telegrambeerbetbot.bot.service.KeyboardService;
 import com.yede0517.edu.telegrambeerbetbot.data.entity.Frame;
 import com.yede0517.edu.telegrambeerbetbot.data.entity.Game;
 import com.yede0517.edu.telegrambeerbetbot.data.shared.ActionIcons;
@@ -14,6 +15,8 @@ import lombok.RequiredArgsConstructor;
 @Component
 @RequiredArgsConstructor
 public class ReturnFirstPlayerGameAction extends AbstractGameAction implements Action {
+
+    private final KeyboardService keyboardService;
 
     @Override
     public void apply(Long chatId, Update update) {
@@ -28,7 +31,7 @@ public class ReturnFirstPlayerGameAction extends AbstractGameAction implements A
 
     @Override
     public SendMessage getResponse(Long chatId, Update update) {
-        return super.getActiveFrameKeyboard(chatId);
+        return keyboardService.getActiveFrameKeyboard(chatId);
     }
 
     @Override

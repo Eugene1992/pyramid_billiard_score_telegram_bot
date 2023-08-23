@@ -16,6 +16,8 @@ public interface GameRepository extends MongoRepository<Game, String> {
 
     Game findByGameIdAndStatus(Long gameId, GameStatus status);
 
+    Game findByGameNumberAndStatus(Long gameNumber, GameStatus status);
+
     Game findByGameIdAndStatusIn(Long gameId, GameStatus... statuses);
 
     Game findByGameNumber(Long gameNumber);

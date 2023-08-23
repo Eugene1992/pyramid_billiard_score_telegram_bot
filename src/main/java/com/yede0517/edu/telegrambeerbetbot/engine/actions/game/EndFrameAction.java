@@ -8,6 +8,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import com.yede0517.edu.telegrambeerbetbot.bot.service.GameService;
+import com.yede0517.edu.telegrambeerbetbot.bot.service.KeyboardService;
 import com.yede0517.edu.telegrambeerbetbot.data.entity.Frame;
 import com.yede0517.edu.telegrambeerbetbot.data.entity.FrameStatus;
 import com.yede0517.edu.telegrambeerbetbot.data.entity.Game;
@@ -22,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 public class EndFrameAction extends AbstractGameAction implements Action {
 
     private final GameService gameService;
+    private final KeyboardService keyboardService;
 
     @Override
     public void apply(Long chatId, Update update) {
@@ -37,7 +39,7 @@ public class EndFrameAction extends AbstractGameAction implements Action {
     public SendMessage getResponse(Long chatId, Update update) {
         Game activeGame = gameService.getActiveGame(chatId);
 
-        return getGameMenuKeyboard(activeGame, "Выберите действие:");
+        return keyboardService.getGameMenuKeyboard(activeGame, "Выберите действие:");
     }
 
     @Override
